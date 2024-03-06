@@ -1,28 +1,41 @@
+import React, { useState } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
 import "../assets/style/Form.css";
 
 function Form() {
+    const [isVerified, setIsVerified] = useState(false);
+
+    const handleCaptchaResponseChange = (response) => {
+        if (response) {
+            setIsVerified(true);
+        }
+    };
     return ( 
         <>
             <div className="d-flex justify-content-center align-items-center vh-100">
                 <form className="form">
-                    <p className="title">Register </p>
-                    <p className="message">Signup now and get full access to our app. </p>
+                    <p className="title">Registrito para CURP </p>
+                    <p className="message">Corte 3 Automatas </p>
+                    <ReCAPTCHA
+                        sitekey="6LdKP48pAAAAACDznGQr7Uj74R9dcJ85Qi8coIZ8"
+                        onChange={handleCaptchaResponseChange}
+                    />
                     <label>
-                        <input required="" placeholder="" type="text" className="input"/>
+                        <input required="" placeholder="" type="text" className="input" disabled={!isVerified}/>
                         <span>Nombre(s)</span>
                     </label> 
                     <div className="flex">
                         <label>
-                            <input required="" placeholder="" type="text" className="input"/>
+                            <input required="" placeholder="" type="text" className="input" disabled={!isVerified}/>
                             <span>Apellido Paterno</span>
                         </label>
                         <label>
-                            <input required="" placeholder="" type="text" className="input"/>
+                            <input required="" placeholder="" type="text" className="input" disabled={!isVerified}/>
                             <span>Apellido Materno</span>
                         </label>
                     </div>       
                     <label>
-                        <input required="" placeholder="" type="date" className="input"/>
+                        <input required="" placeholder="" type="date" className="input" disabled={!isVerified}/>
                         <span>Fecha De Nacimiento</span>
                     </label> 
                     <label>
@@ -68,7 +81,7 @@ function Form() {
                             <option value="Zacatecas">Zacatecas</option>
                         </select>
                     </label>
-                    <button className="submit">Generar CURP</button>
+                    <button className="submit" disabled={!isVerified}>Generar CURP</button>
                 </form>
             </div>
         </>

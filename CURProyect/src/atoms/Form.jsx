@@ -30,7 +30,7 @@ function Form() {
 
     const generateCaptcha = () => {
         let randomString = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        const characters = '6LcntpApAAAAAABa5Ndio61PfktpRp_ajCpddq2b';
         for (let i = 0; i < 5; i++) {
             randomString += characters.charAt(Math.floor(Math.random() * characters.length));
         }
@@ -143,37 +143,38 @@ function Form() {
                         <label>
                             <select className="input" onChange={e => setEstado(e.target.value)}>
                                 <option value="">Selecciona un estado</option>
-                                <option value="Chiapas">Chiapas</option>
-                                <option value="Zacatecas">Zacatecas</option>
-                                <option value="Aguascalientes">Aguascalientes</option>
-                                <option value="Baja California">Baja California</option>
-                                <option value="Baja California Sur">Baja California Sur</option>
-                                <option value="Campeche">Campeche</option>
-                                <option value="Chihuahua">Chihuahua</option>
-                                <option value="Coahuila">Coahuila</option>
-                                <option value="Colima">Colima</option>
-                                <option value="Durango">Durango</option>
-                                <option value="Estado de México">Estado de México</option>
-                                <option value="Guanajuato">Guanajuato</option>
-                                <option value="Guerrero">Guerrero</option>
-                                <option value="Hidalgo">Hidalgo</option>
-                                <option value="Jalisco">Jalisco</option>
-                                <option value="Michoacán">Michoacán</option>
-                                <option value="Morelos">Morelos</option>
-                                <option value="Nayarit">Nayarit</option>
-                                <option value="Nuevo León">Nuevo León</option>
-                                <option value="Oaxaca">Oaxaca</option>
-                                <option value="Puebla">Puebla</option>
-                                <option value="Querétaro">Querétaro</option>
-                                <option value="Quintana Roo">Quintana Roo</option>
-                                <option value="San Luis Potosí">San Luis Potosí</option>
-                                <option value="Sinaloa">Sinaloa</option>
-                                <option value="Sonora">Sonora</option>
-                                <option value="Tabasco">Tabasco</option>
-                                <option value="Tamaulipas">Tamaulipas</option>
-                                <option value="Tlaxcala">Tlaxcala</option>
-                                <option value="Veracruz">Veracruz</option>
-                                <option value="Yucatán">Yucatán</option>
+                                <option value="CS">Chiapas</option>
+                                <option value="AS">Aguascalientes</option>
+                                <option value="BC">Baja California</option>
+                                <option value="BS">Baja California Sur</option>
+                                <option value="CC">Campeche</option>
+                                <option value="CH">Chihuahua</option>
+                                <option value="CL">Coahuila</option>
+                                <option value="CM">Colima</option>
+                                <option value="DG">Durango</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="GT">Guanajuato</option>
+                                <option value="GR">Guerrero</option>
+                                <option value="HG">Hidalgo</option>
+                                <option value="JC">Jalisco</option>
+                                <option value="MN">Michoacán</option>
+                                <option value="MS">Morelos</option>
+                                <option value="MC">México</option>
+                                <option value="NT">Nayarit</option>
+                                <option value="NL">Nuevo León</option>
+                                <option value="OC">Oaxaca</option>
+                                <option value="PL">Puebla</option>
+                                <option value="QT">Querétaro</option>
+                                <option value="QR">Quintana Roo</option>
+                                <option value="SP">San Luis Potosí</option>
+                                <option value="SL">Sinaloa</option>
+                                <option value="SR">Sonora</option>
+                                <option value="TC">Tabasco</option>
+                                <option value="TS">Tamaulipas</option>
+                                <option value="TL">Tlaxcala</option>
+                                <option value="VZ">Veracruz</option>
+                                <option value="YN">Yucatán</option>
+                                <option value="ZS">Zacatecas</option>
                             </select>
                         </label>
                         <div>

@@ -1,52 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import ReCAPTCHA from "react-google-recaptcha";
 import "../assets/style/Form.css";
 
 function Form() {
     const [isVerified, setIsVerified] = useState(false);
+    const [isCaptchaSolved, setIsCaptchaSolved] = useState(false);
 
     const handleCaptchaResponseChange = (response) => {
         if (response) {
             setIsVerified(true);
         }
     };
+
+    const [captcha, setCaptcha] = useState('');
+    const [userInput, setUserInput] = useState('');
+
+    useEffect(() => {
+        generateCaptcha();
+    }, []);
+
+    const generateCaptcha = () => {
+        let randomString = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        for (let i = 0; i < 5; i++) {
+            randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        setCaptcha(randomString);
+    };
+
+    const handleInputChange = (event) => {
+        setUserInput(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (userInput !== captcha) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'El captcha ingresado no coincide!',
+            });
+            generateCaptcha();
+            setUserInput('');
+        } else {
+            Swal.fire({
+                icon: 'success',
+                title: 'Bien hecho!',
+                text: 'El captcha ingresado coincide.',
+            });
+            setIsCaptchaSolved(true);
+            setUserInput('');
+        }
+    };
+
     return ( 
         <>
             <div className="d-flex justify-content-center align-items-center vh-100">
-                <form className="form">
+                <form className="form" onSubmit={handleSubmit}>
                     <p className="title">Registrito para CURP </p>
                     <p className="message">Corte 3 Automatas </p>
-                    <ReCAPTCHA
-                        sitekey="6LdKP48pAAAAACDznGQr7Uj74R9dcJ85Qi8coIZ8"
-                        onChange={handleCaptchaResponseChange}
-                    />
+                    {!isCaptchaSolved && (
+                        <>
+                            <p>{captcha}</p>
+                            <input type="text" value={userInput} onChange={handleInputChange} required />
+                            <button type="submit">Verificar</button>
+                        </>
+                    )}
+                    <ReCAPTCHA sitekey="6LdKP48pAAAAACDznGQr7Uj74R9dcJ85Qi8coIZ8" onChange={handleCaptchaResponseChange}/>
                     <label>
-                        <input required="" placeholder="" type="text" className="input" disabled={!isVerified}/>
-                        <span>Nombre(s)</span>
+                        <input required="" placeholder="Nombre(s)" type="text" className="input" disabled={!isVerified}/>
                     </label> 
                     <div className="flex">
                         <label>
-                            <input required="" placeholder="" type="text" className="input" disabled={!isVerified}/>
-                            <span>Apellido Paterno</span>
+                            <input required="" placeholder="Apellido Paterno" type="text" className="input" disabled={!isVerified}/>
                         </label>
                         <label>
-                            <input required="" placeholder="" type="text" className="input" disabled={!isVerified}/>
-                            <span>Apellido Materno</span>
+                            <input required="" placeholder="Apellido Materno" type="text" className="input" disabled={!isVerified}/>
                         </label>
                     </div>       
                     <label>
-                        <input required="" placeholder="" type="date" className="input" disabled={!isVerified}/>
-                        <span>Fecha De Nacimiento</span>
+                        <input required="" placeholder="Fecha De Nacimiento" type="date" className="input" disabled={!isVerified}/>
                     </label> 
                     <label>
-                        <select required className="input">
-                            <label value="">Sexo</label>
+                        <select className="input">
+                            <option value="">Sexo</option>
                             <option value="hombre">Hombre</option>
                             <option value="mujer">Mujer</option>
                         </select>
                     </label>
                     <label>
-                        <select required className="input">
+                        <select className="input">
                             <option value="">Selecciona un estado</option>
                             <option value="Aguascalientes">Aguascalientes</option>
                             <option value="Baja California">Baja California</option>
@@ -89,3 +133,4 @@ function Form() {
 }
 
 export default Form;
+

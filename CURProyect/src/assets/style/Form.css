@@ -129,3 +129,24 @@
       opacity: 0;
     }
   }
+
+.centered-table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%;
+    text-align: center;
+}
+
+.centered-table th, .centered-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.centered-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+}

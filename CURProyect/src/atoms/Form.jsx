@@ -5,6 +5,7 @@ import "../assets/style/Button.css";
 import "../assets/style/Form.css";
 
 function Form() {
+    const [formData, setFormData] = useState([]);
     const [isVerified, setIsVerified] = useState(false);
     const [isCaptchaSolved, setIsCaptchaSolved] = useState(false);
     const [captcha, setCaptcha] = useState('');
@@ -61,10 +62,37 @@ function Form() {
         }
     };
 
+    const removeAccents = (str) => {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+    
+    const generateCURP = () => {
+        const vowels = 'AEIOU';
+        const consonants = 'BCDFGHJKLMNPQRSTVWXYZ';
+        let curp = removeAccents(apellidoPaterno[0] + (Array.from(apellidoPaterno.slice(1)).find(c => vowels.includes(c.toUpperCase())) || ''));
+        curp += removeAccents(apellidoMaterno[0] + nombre[0]);
+        curp += ano.slice(2) + (mes.length === 1 ? '0' + mes : mes) + (dia.length === 1 ? '0' + dia : dia);
+        curp += sexo[0].toUpperCase();
+        curp += estado.slice(0, 2).toUpperCase();
+        curp += removeAccents((Array.from(apellidoPaterno.slice(1)).find(c => consonants.includes(c.toUpperCase())) || ''));
+        curp += removeAccents((Array.from(apellidoMaterno.slice(1)).find(c => consonants.includes(c.toUpperCase())) || ''));
+        curp += removeAccents((Array.from(nombre.slice(1)).find(c => consonants.includes(c.toUpperCase())) || ''));
+        return curp.toUpperCase();
+    };
+
     const handleSubmitAlertDataForm = (event) => {
         event.preventDefault();
-        alert(`Nombre: ${nombre}\nApellido Paterno: ${apellidoPaterno}\nApellido Materno: ${apellidoMaterno}\nFecha de Nacimiento: ${dia}/${mes}/${ano}\nSexo: ${sexo}\nEstado: ${estado}`);
+        const curp = generateCURP();
+        // Agregar los datos del formulario al estado en lugar de mostrar una alerta
+        setFormData([...formData, { curp, nombre, apellidoPaterno, apellidoMaterno, dia, mes, ano, sexo, estado }]);
+        Swal.fire({
+            title: 'Enviado!',
+            text: 'Tu formulario ha sido enviado.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
     };
+
 
     return ( 
         <>
@@ -83,26 +111,26 @@ function Form() {
                     <form onSubmit={handleSubmitAlertDataForm}>
                         <ReCAPTCHA sitekey="6LdKP48pAAAAACDznGQr7Uj74R9dcJ85Qi8coIZ8" onChange={handleCaptchaResponseChange}/>
                         <label>
-                            <input required="" placeholder="Nombre(s)" type="text" className="input" disabled={!isVerified} onChange={e => setNombre(e.target.value)}/>
+                            <input required="" placeholder="Nombre(s)" type="text" className="input mt-2 mb-2" disabled={!isVerified} onChange={e => setNombre(e.target.value)}/>
                         </label> 
                         <div className="flex">
                             <label>
-                                <input required="" placeholder="Apellido Paterno" type="text" className="input" disabled={!isVerified} onChange={e => setApellidoPaterno(e.target.value)}/>
+                                <input required="" placeholder="Apellido Paterno" type="text" className="input mt-2 mb-2" disabled={!isVerified} onChange={e => setApellidoPaterno(e.target.value)}/>
                             </label>
                             <label>
-                                <input required="" placeholder="Apellido Materno" type="text" className="input" disabled={!isVerified} onChange={e => setApellidoMaterno(e.target.value)}/>
+                                <input required="" placeholder="Apellido Materno" type="text" className="input mt-2 mb-2" disabled={!isVerified} onChange={e => setApellidoMaterno(e.target.value)}/>
                             </label>
                         </div>       
                         <p className='text-center'>Fecha De Nacimiento</p>
                         <div className="flex">
                             <label>
-                                <input required="" placeholder="Día" type="number" className="input" disabled={!isVerified} onChange={e => setDia(e.target.value)}/>
+                                <input required="" placeholder="Día" type="number" className="input mt-2 mb-2" disabled={!isVerified} onChange={e => setDia(e.target.value)}/>
                             </label>
                             <label>
-                                <input required="" placeholder="Mes" type="number" className="input" disabled={!isVerified} onChange={e => setMes(e.target.value)}/>
+                                <input required="" placeholder="Mes" type="number" className="input mt-2 mb-2" disabled={!isVerified} onChange={e => setMes(e.target.value)}/>
                             </label>
                             <label>
-                                <input required="" placeholder="Año" type="number" className="input" disabled={!isVerified} onChange={e => setAno(e.target.value)}/>
+                                <input required="" placeholder="Año" type="number" className="input mt-2 mb-2" disabled={!isVerified} onChange={e => setAno(e.target.value)}/>
                             </label>
                         </div>    
                         <label>
@@ -117,51 +145,73 @@ function Form() {
                                 <option value="">Selecciona un estado</option>
                                 <option value="Chiapas">Chiapas</option>
                                 <option value="Zacatecas">Zacatecas</option>
+                                <option value="Aguascalientes">Aguascalientes</option>
+                                <option value="Baja California">Baja California</option>
+                                <option value="Baja California Sur">Baja California Sur</option>
+                                <option value="Campeche">Campeche</option>
+                                <option value="Chihuahua">Chihuahua</option>
+                                <option value="Coahuila">Coahuila</option>
+                                <option value="Colima">Colima</option>
+                                <option value="Durango">Durango</option>
+                                <option value="Estado de México">Estado de México</option>
+                                <option value="Guanajuato">Guanajuato</option>
+                                <option value="Guerrero">Guerrero</option>
+                                <option value="Hidalgo">Hidalgo</option>
+                                <option value="Jalisco">Jalisco</option>
+                                <option value="Michoacán">Michoacán</option>
+                                <option value="Morelos">Morelos</option>
+                                <option value="Nayarit">Nayarit</option>
+                                <option value="Nuevo León">Nuevo León</option>
+                                <option value="Oaxaca">Oaxaca</option>
+                                <option value="Puebla">Puebla</option>
+                                <option value="Querétaro">Querétaro</option>
+                                <option value="Quintana Roo">Quintana Roo</option>
+                                <option value="San Luis Potosí">San Luis Potosí</option>
+                                <option value="Sinaloa">Sinaloa</option>
+                                <option value="Sonora">Sonora</option>
+                                <option value="Tabasco">Tabasco</option>
+                                <option value="Tamaulipas">Tamaulipas</option>
+                                <option value="Tlaxcala">Tlaxcala</option>
+                                <option value="Veracruz">Veracruz</option>
+                                <option value="Yucatán">Yucatán</option>
                             </select>
                         </label>
                         <div>
                             <div className="d-flex justify-content-center">
-                                <button className="btn mt-5" disabled={!isVerified}><i className="animation"></i>Generar CURP<i className="animation"></i></button>
+                                <button className="btn mt-5" disabled={!isVerified} onClick={handleSubmitAlertDataForm}><i className="animation"></i>Generar CURP<i className="animation"></i></button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+            <table className="centered-table">
+                <thead>
+                    <tr>
+                        <th>CURP</th>
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Sexo</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {formData.map((data, index) => (
+                        <tr key={index}>
+                            <td>{data.curp}</td>
+                            <td>{data.nombre}</td>
+                            <td>{data.apellidoPaterno}</td>
+                            <td>{data.apellidoMaterno}</td>
+                            <td>{`${data.dia}/${data.mes}/${data.ano}`}</td>
+                            <td>{data.sexo}</td>
+                            <td>{data.estado}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </>
      );
 }
 
 export default Form;
-
-
-{/*
- <option value="Aguascalientes">Aguascalientes</option>
-<option value="Baja California">Baja California</option>
-<option value="Baja California Sur">Baja California Sur</option>
-<option value="Campeche">Campeche</option>
- <option value="Chihuahua">Chihuahua</option>
-<option value="Coahuila">Coahuila</option>
-<option value="Colima">Colima</option>
-<option value="Durango">Durango</option>
-<option value="Estado de México">Estado de México</option>
-<option value="Guanajuato">Guanajuato</option>
-<option value="Guerrero">Guerrero</option>
-<option value="Hidalgo">Hidalgo</option>
-<option value="Jalisco">Jalisco</option>
-<option value="Michoacán">Michoacán</option>
-<option value="Morelos">Morelos</option>
-<option value="Nayarit">Nayarit</option>
-<option value="Nuevo León">Nuevo León</option>
-<option value="Oaxaca">Oaxaca</option>
-<option value="Puebla">Puebla</option>
-<option value="Querétaro">Querétaro</option>
-<option value="Quintana Roo">Quintana Roo</option>
-<option value="San Luis Potosí">San Luis Potosí</option>
-<option value="Sinaloa">Sinaloa</option>
-<option value="Sonora">Sonora</option>
-<option value="Tabasco">Tabasco</option>
-<option value="Tamaulipas">Tamaulipas</option>
-<option value="Tlaxcala">Tlaxcala</option>
-<option value="Veracruz">Veracruz</option>
-<option value="Yucatán">Yucatán</option>
-*/}

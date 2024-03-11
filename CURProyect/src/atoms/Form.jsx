@@ -73,7 +73,7 @@ function Form() {
         curp += removeAccents(apellidoMaterno[0] + nombre[0]);
         curp += ano.slice(2) + (mes.length === 1 ? '0' + mes : mes) + (dia.length === 1 ? '0' + dia : dia);
         curp += sexo[0].toUpperCase();
-        curp += estado.slice(0, 2).toUpperCase();
+        curp += estado ? estado.slice(0, 2).toUpperCase() : '';
         curp += removeAccents((Array.from(apellidoPaterno.slice(1)).find(c => consonants.includes(c.toUpperCase())) || ''));
         curp += removeAccents((Array.from(apellidoMaterno.slice(1)).find(c => consonants.includes(c.toUpperCase())) || ''));
         curp += removeAccents((Array.from(nombre.slice(1)).find(c => consonants.includes(c.toUpperCase())) || ''));

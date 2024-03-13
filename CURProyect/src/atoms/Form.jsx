@@ -92,7 +92,40 @@ function Form() {
             confirmButtonText: 'OK'
         });
     };
+    const handleDayChange = (e) => {
+        const day = e.target.value;
+        if (day < 1 || day > 31) {
+            Swal.fire('Error', 'Day must be between 1 and 31', 'error');
+            return;
+        }
+        if (mes === 2 && day > 29) {
+            Swal.fire('Error', "February can't have more than 29 days", 'error');
+            return;
+        }
+        if ([4, 6, 9, 11].includes(mes) && day > 30) {
+            Swal.fire('Error', "This month can't have more than 30 days", 'error');
+            return;
+        }
+        setDia(day);
+    };
 
+    const handleMonthChange = (e) => {
+        const month = e.target.value;
+        if (month < 1 || month > 12) {
+            Swal.fire('Error', 'Month must be between 1 and 12', 'error');
+            return;
+        }
+        setMes(month);
+    };
+
+    const handleYearChange = (e) => {
+        const year = e.target.value;
+        if (year > 2024) {
+            Swal.fire('Error', "Year can't be greater than 2024", 'error');
+            return;
+        }
+        setAno(year);
+    };
 
     return ( 
         <>
@@ -124,13 +157,13 @@ function Form() {
                         <p className='text-center'>Fecha De Nacimiento</p>
                         <div className="flex">
                             <label>
-                                <input required="" placeholder="Día" type="number" className="input mt-2 mb-2" disabled={!isVerified} onChange={e => setDia(e.target.value)}/>
+                                <input required="" placeholder="Día" type="number" className="input mt-2 mb-2" disabled={!isVerified} onChange={handleDayChange}/>
                             </label>
                             <label>
-                                <input required="" placeholder="Mes" type="number" className="input mt-2 mb-2" disabled={!isVerified} onChange={e => setMes(e.target.value)}/>
+                                <input required="" placeholder="Mes" type="number" className="input mt-2 mb-2" disabled={!isVerified} onChange={handleMonthChange}/>
                             </label>
                             <label>
-                                <input required="" placeholder="Año" type="number" className="input mt-2 mb-2" disabled={!isVerified} onChange={e => setAno(e.target.value)}/>
+                                <input required="" placeholder="Año" type="number" className="input mt-2 mb-2" disabled={!isVerified} onChange={handleYearChange}/>
                             </label>
                         </div>    
                         <label>
@@ -216,3 +249,7 @@ function Form() {
 }
 
 export default Form;
+
+
+
+
